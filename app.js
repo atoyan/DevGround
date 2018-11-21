@@ -3,6 +3,7 @@ const express           = require("express");
       app               = express();
       mongoose          = require("mongoose");
       bodyParser        = require('body-parser');
+      passport          = require('passport');
 
 
 //Body Parser Middleware
@@ -34,12 +35,11 @@ mongoose
     app.use('/api/profile', profile);
     app.use('/api/posts', posts);
 
-    //ROUTES
-      app.get("/", (req,res)=>{
+    //PASSPORT Middleware
+    app.use(passport.initialize());
 
-        res.send("hello world");
-      })
-
+    // Passport Config
+    require('./config/passport')(passport);
 
 
       //SERVER INITIALIZATION
