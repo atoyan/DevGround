@@ -2,11 +2,17 @@ const express = require("express");
       router  = express.Router();
       mongoose= require('mongoose');
       passport= require('passport');
-     
+      
+     //Load Validation
+     validateProfileInput = require('./../../validation/profile');
+
      //Load Profile model
       Profile = require('./../../models/Profile');
      //Load User model
       User    = require('./../../models/User');
+
+      mongoose.set('useFindAndModify', false);
+      mongoose.set('useFindOneAndUpdate', true);
 
       //@GET /api/users/test
       //@desc Tests profile route 
@@ -20,6 +26,7 @@ const express = require("express");
         router.get('/',passport.authenticate('jwt',{session:false}),(req,res)=>{
             const errors = {};
                 Profile.findOne({user: req.user.id})
+                .populate('user', ['name', 'avatar'])
                 .then(profile=>{
                     if(!profile){
                         errors.noprofile = 'There is no profile for this user'
@@ -34,9 +41,19 @@ const express = require("express");
       //@access Private
         router.post('/',passport.authenticate('jwt',{session:false}),(req,res)=>{
             //Get fields
+                const {errors, isValid} = validateProfileInput(req.body);
+
+                //Check Validation
+                if(!isValid){
+                    //Return any errors with 400
+                        return res.status(400).json(errors);
+                }
+                
+                //Get Fields
                 const profileFields = {};
                 profileFields.user  = req.user.id;
                 if(req.body.handle)             profileFields.handle              = req.body.handle;
+                if(req.body.status)             profileFields.status              = req.body.status;
                 if(req.body.company)            profileFields.company             = req.body.company;
                 if(req.body.website)            profileFields.website             = req.body.website;
                 if(req.body.location)           profileFields.location            = req.body.location;
@@ -83,6 +100,8 @@ const express = require("express");
                         .then(profile=> {
                             res.json(profile);
                         })
+                        .catch(err=>res.json(err));
+                        
                         })
                     }
                 })
