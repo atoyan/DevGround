@@ -12,8 +12,6 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    default:
-      return state;
     case PROFILE_LOADING:
       return {
         ...state,
@@ -30,5 +28,7 @@ export default function(state = initialState, action) {
         ...state,
         profile: null
       };
+    default:
+      return state;
   }
 }
