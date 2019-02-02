@@ -8,7 +8,7 @@ import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { createProfile, getCurrentProfile } from "../../actions/profileActions";
 import isEmpty from "./../../validation/is-empty";
-
+import { Link } from "react-router-dom";
 class EditProfile extends Component {
   constructor(props) {
     super(props);
@@ -187,6 +187,9 @@ class EditProfile extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
+              <Link to="/dashboard" className="btn btn-light">
+                Go Back
+              </Link>
               <h1 className="display-4 text-center">Edit Your Profile</h1>
               <p className="lead text-center">
                 Let's get some information to make you profile stand out

@@ -19,6 +19,7 @@ import PrivateRoute from "./components/common/PrivateRoute";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
 import AddExperience from "./components/add-credentials/AddExperience";
+import AddEducation from "./components/add-credentials/AddEducation";
 
 //Check for Token
 if (localStorage.jwtToken) {
@@ -50,10 +51,7 @@ class App extends Component {
             <Navbar />
 
             <Route exact path="/" component={Landing} />
-            <div
-              className="container"
-              style={{ minHeight: "750px", height: "auto !important" }}
-            >
+            <div className="container" style={{ height: "auto !important" }}>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <Switch>
@@ -78,6 +76,13 @@ class App extends Component {
                   exact
                   path="/add-experience"
                   component={AddExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEducation}
                 />
               </Switch>
             </div>
