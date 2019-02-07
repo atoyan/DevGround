@@ -50,7 +50,7 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 //SERVER INITIALIZATION
-app.listen(port, err => {
+app.listen(process.env.PORT || port, err => {
   if (err) {
     console.log(err);
   } else {
